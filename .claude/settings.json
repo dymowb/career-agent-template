@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "read -r input; file=$(echo \"$input\" | jq -r '.tool_input.file_path // empty'); echo \"$file\" | grep -q 'resume_source_of_truth' && cd \"$CLAUDE_PROJECT_DIR\" && .venv/bin/python scripts/generate_base_cv.py 2>&1 || true",
+            "statusMessage": "Regenerating base CV…"
+          }
+        ]
+      }
+    ]
+  }
+}

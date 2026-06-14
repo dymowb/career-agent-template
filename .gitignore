@@ -1,0 +1,27 @@
+# secrets
+.env
+
+# runtime artifacts (db/schema.py IS tracked — only ignore generated data)
+db/*.db
+db/*.json
+db/__pycache__/
+outputs/
+review_pack/
+
+# job-description data (yours stays local)
+inputs/queue/*
+!inputs/queue/.gitkeep
+inputs/processed/
+inputs/failed/
+
+# your real CV exports
+context/*.docx
+
+# python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+.DS_Store
