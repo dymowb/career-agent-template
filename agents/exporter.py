@@ -19,6 +19,7 @@ def export_review_pack(
     factual_judge_result: dict,
     voice_judge_result: dict = None,
     cv_docx_path=None,
+    translation: str = None,
 ) -> Path:
     date = datetime.now().strftime("%Y%m%d")
     app_dir = config.application_dir(
@@ -34,6 +35,12 @@ def export_review_pack(
     )
 
     voice_verdict = voice_judge_result.get("verdict", "n/a") if voice_judge_result else "n/a"
+
+    translation_section = (
+        f"\n---\n\n## 🌐 Reference translation — for your review only (do NOT submit)\n\n{translation}\n"
+        if translation
+        else ""
+    )
 
     supplement_section = (
         f"## Company Supplement (application question)\n\n{draft.get('company_supplement')}\n"
@@ -93,7 +100,7 @@ def export_review_pack(
 
 ## Tailored CV
 {"**DOCX:** cv.docx (same folder as this file)" if cv_docx_path else "⚠ CV not generated (factual block or empty result)"}
-"""
+{translation_section}"""
 
     out_path.write_text(md, encoding="utf-8")
     print(f"[exporter] saved review pack → {out_path}")

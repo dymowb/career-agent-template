@@ -41,6 +41,14 @@ CANDIDATE_NAME = "Your Name"
 CANDIDATE_CONTACT = "you@example.com  ·  +1 555 555 5555  ·  linkedin.com/in/you  ·  City, Country"
 GITHUB_URL = ""  # optional, e.g. "github.com/yourusername" — leave blank to omit the GitHub line
 
+# ── Optional review translation ────────────────────────────────────────────────
+# If set, also generate a faithful translation of the finished pack (CV + letters) into
+# this language, appended to the review pack / email FOR REVIEW ONLY — so a non-native
+# speaker can double-check what they're about to send. The application is still written
+# and submitted in the JD's language; this does not change what you send.
+# Set to a human language name to enable (e.g. "Brazilian Portuguese"); blank = disabled.
+REVIEW_TRANSLATION_LANG = ""
+
 # ── Pipeline ──────────────────────────────────────────────────────────────────
 MIN_SCORE = 6.5            # minimum fit score (0–10) to bother applying
 MIN_BASE_COMP = 0          # skip roles whose stated salary floor is below this (0 = no filter)

@@ -30,6 +30,12 @@ For every role that scores above your threshold, it writes a folder under `outpu
 You read the review pack, tweak anything you want, and apply. Nothing is sent to an employer
 automatically. (The only optional outbound step is an email digest **to yourself**.)
 
+**Not a native English speaker?** Set `REVIEW_TRANSLATION_LANG` in `config.py` (e.g.
+`"Brazilian Portuguese"`) and each pack also gets a faithful translation of the CV + letters
+appended for review — so you can double-check what you're about to send in your own language.
+The application is still written and submitted in the JD's language; the translation is
+review-only and never goes to the employer.
+
 ## How it stays honest (read this — it's the whole point)
 
 A dedicated **factual judge** audits every generated document against one file you control:
@@ -78,7 +84,8 @@ a paragraph, you can retune any agent. Here's the map, from "must do" to "advanc
 - **`context/career_targets.md`** — roles, levels, comp, location you want (used by the scorer).
 - **`context/writing_voice_guide.md`** — how your letters should sound (enforced by the voice judge).
 - **`config.py`** — `CANDIDATE_NAME` / `CANDIDATE_CONTACT` / `GITHUB_URL` (on every doc), `MODEL`,
-  `MIN_SCORE` (fit bar), `MIN_BASE_COMP` (salary floor), `COMPANY_SKIP` / `COMPANY_BLOCK_UNTIL`.
+  `MIN_SCORE` (fit bar), `MIN_BASE_COMP` (salary floor), `COMPANY_SKIP` / `COMPANY_BLOCK_UNTIL`,
+  `REVIEW_TRANSLATION_LANG` (optional review-only translation of each pack — see above).
 
 ### Tier 2 — Tune the judgment (prompts & rubric)
 This is where most of the power is, and where the README of most tools stops short:

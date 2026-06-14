@@ -262,11 +262,15 @@ def run(
 
     voice_dict = voice_result.model_dump() if voice_result else {}
 
+    # 8b. Optional reference translation (for review only — does not change what is submitted)
+    from agents.translator import run_translator
+    translation = run_translator(cv_markdown, current_draft)
+
     # 9. Export review pack
     pack_path = export_review_pack(
         parsed_dict, scoring_dict, judge_dict,
         tailoring_dict, current_draft, factual_dict,
-        voice_dict, cv_docx_path=cv_docx_path
+        voice_dict, cv_docx_path=cv_docx_path, translation=translation,
     )
 
     rprint(f"\n[green]✅ Review pack ready → {pack_path}[/green]")
