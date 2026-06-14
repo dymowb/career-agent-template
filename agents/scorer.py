@@ -50,8 +50,8 @@ or materially higher comp; a lateral is acceptable only with broader scope. Use 
 calibrate level_fit and to fill "level_equivalent" (the role mapped onto your own ladder).
 
 Optionally provide a cross-company level reference table so the model maps titles consistently,
-e.g. "Company X Senior EM ≈ my level; Company X Director ≈ one level up". Keep it accurate to
-your situation.
+e.g. "Company X Senior <role> ≈ my level; Company X <next level up> ≈ one level up". Keep it
+accurate to your situation.
 
 EXTERNAL LEVELING REALITY: companies rarely hire external candidates two levels above their
 current equivalent. Reflect that in the score — a 2-level reach is worth attempting but unlikely
@@ -76,7 +76,7 @@ Return this schema:
 {
   "score": 8.4,
   "recommendation": "apply",
-  "estimated_level": "Senior EM",
+  "estimated_level": "Senior <role>",
   "level_equivalent": "one level above current (step-up)",
   "reasons_to_apply": ["reason 1", "reason 2"],
   "concerns": ["concern 1"],

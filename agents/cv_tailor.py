@@ -108,7 +108,7 @@ HARD CONSTRAINTS — a factual auditor will validate every claim:
    "deep expertise in security engineering") unless the candidate's primary role is in
    that domain. Describe transferable strengths instead.
    CRITICAL: NEVER write aggregate career statistics that are not verbatim in the source —
-   e.g. "15+ years of experience", "teams of 50+ engineers", "managed hundreds of engineers".
+   e.g. "15+ years of experience", "teams of 50+ people", "managed hundreds of staff".
    Use only specific, verifiable facts (e.g. "grew the team by N", "served X requests/day").
    If you cannot write a factually grounded summary, leave professional_summary as "".
 9. MUST include technical_projects verbatim from the source of truth — do NOT modify project names, GitHub links, or bullet content
@@ -268,8 +268,9 @@ def render_markdown(cv: CVTailorResult) -> str:
             for b in proj.bullets:
                 lines.append(f"- {b}")
             lines.append("")
-        lines.append(f"All projects public on GitHub: {config.GITHUB_URL}")
-        lines.append("")
+        if config.GITHUB_URL:
+            lines.append(f"All projects public on GitHub: {config.GITHUB_URL}")
+            lines.append("")
 
     return "\n".join(lines)
 
@@ -411,9 +412,10 @@ def render_docx(cv: CVTailorResult, output_path: Path) -> bool:
                 p.paragraph_format.space_after = Pt(1)
                 run = p.add_run(bullet)
                 set_font(run, 9)
-        p = para(space_before=4, space_after=2)
-        run = p.add_run(f"All projects public on GitHub: {config.GITHUB_URL}")
-        set_font(run, 9, color=(80, 80, 80))
+        if config.GITHUB_URL:
+            p = para(space_before=4, space_after=2)
+            run = p.add_run(f"All projects public on GitHub: {config.GITHUB_URL}")
+            set_font(run, 9, color=(80, 80, 80))
 
     doc.save(str(output_path))
     return True

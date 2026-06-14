@@ -39,7 +39,7 @@ MAX_TOKENS = 4096
 # EDIT THESE — they appear on every generated CV and cover letter.
 CANDIDATE_NAME = "Your Name"
 CANDIDATE_CONTACT = "you@example.com  ·  +1 555 555 5555  ·  linkedin.com/in/you  ·  City, Country"
-GITHUB_URL = "github.com/yourusername"
+GITHUB_URL = ""  # optional, e.g. "github.com/yourusername" — leave blank to omit the GitHub line
 
 # ── Pipeline ──────────────────────────────────────────────────────────────────
 MIN_SCORE = 6.5            # minimum fit score (0–10) to bother applying
