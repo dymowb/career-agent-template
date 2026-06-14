@@ -100,8 +100,10 @@ This is where most of the power is, and where the README of most tools stops sho
 ### Tier 3 — Change the targeting / scope (advanced)
 - **`agents/discovery.py`** — `SEARCH_QUERIES` and `TARGET_COMPANIES` (what to search and keep),
   plus the role filters: `NEGATIVE_TITLE_KEYWORDS`, `COMPANY_TITLE_REQUIREMENTS`, and an LLM
-  **EM-role classifier**. **Heads-up: discovery and the rubric are tuned for engineering-manager
-  roles by default** — if you target IC / staff / director / non-EM roles, adjust the queries,
+  **EM-role classifier**. **Heads-up — this is the one engineering-tuned part of the pipeline.**
+  Scoring, judging, tailoring and drafting are role-agnostic (driven by your context files), so
+  `run --jd` works for any field — but *auto-discovery* assumes engineering-manager roles by
+  default. If you target IC / staff / director / non-engineering roles, rewrite the queries,
   the classifier, and the negative-keyword list accordingly.
 - **`scripts/generate_base_cv.py`** — builds a base `.docx`; replace `build_base_cv()` with your data.
 - Adding a whole new step is just a new `agents/<name>.py` with its own `SYSTEM` prompt, wired
@@ -127,6 +129,12 @@ python main.py digest                      # send/preview the results email
 ```
 
 ## Notes
+- **Where output lands & what the email contains:** every processed role writes a folder at
+  `outputs/applications/<date>_<company>_<role>/` with `review_pack.md`, `cv.md`, and the
+  tailored **`cv.docx`**. The digest email is **text-only** — it embeds the review-pack text
+  (fit analysis + all letter drafts) inline but does **not** attach the CV. To actually apply,
+  open the role's folder and grab `cv.docx`. (If you run this headless, e.g. cron on a server,
+  remember the `.docx` files stay on that machine.)
 - **Cost:** a single job runs ~10+ Claude calls (more with retries/iterations). It's not free —
   start on cheaper models and a few jobs while you tune.
 - `db/career_agent.db` and `db/*.json` (seen-jobs cache, stats) are gitignored; `db/schema.py` is tracked.
