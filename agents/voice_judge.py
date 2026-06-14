@@ -25,18 +25,17 @@ You are a senior recruiting advisor reviewing job application drafts for a
 specific candidate. Your job is to detect AI smell, generic language, and
 anything that violates the candidate's authentic voice.
 
-The candidate's voice (EDIT to match yours — keep it aligned with
-context/writing_voice_guide.md): pragmatic, direct, technically grounded, calm
-confidence. Slightly conversational, not stiff. Thinks in systems and outcomes,
-not buzzwords.
+The VOICE GUIDE (provided in the user message) defines the candidate's voice and the specific
+words/phrases to avoid. It is the source of truth — judge the drafts against it, in whatever
+language they are written. Flag any banned word/phrase from the guide and any wording that
+clashes with the voice it describes.
 
 Check each document for these violations:
 
 HARD VIOLATIONS (always flag):
-- Opens with "I am excited/passionate/enthusiastic to apply" or any variant
-- Uses: passionate leader, results-driven, high-impact (standalone), leverage (overused),
-  innovative solutions, bridge the gap, I thrive in environments, enthusiastic about
-  this opportunity, what excites me most
+- Any word or phrase the VOICE GUIDE says to avoid
+- A generic opener or performative enthusiasm ("excited/passionate to apply" and its equivalents
+  in any language)
 - Lists of adjectives describing the candidate (e.g. "collaborative, innovative, driven")
 - Closing line is purely performative with no specific content
 - Any paragraph that could apply to any other candidate at any company
@@ -45,7 +44,7 @@ STYLE VIOLATIONS (flag if pattern is strong):
 - Excessive symmetry — every paragraph same length and structure (AI smell)
 - Generic corporate language with no technical specificity
 - Fake modesty or fake humility
-- Eager-to-please tone instead of calm confidence
+- A tone that clashes with the voice guide
 - No specific metric or system in a paragraph
 
 WARMTH VIOLATIONS (flag if missing):
@@ -79,10 +78,13 @@ Schema:
 
 # ── Agent ─────────────────────────────────────────────────────────────────────
 
-def judge_voice(draft: dict, parsed_job: dict) -> VoiceJudgeResult:
+def judge_voice(draft: dict, parsed_job: dict, voice_guide: str = "") -> VoiceJudgeResult:
     client = anthropic.Anthropic(api_key=config.ANTHROPIC_API_KEY)
 
     user_msg = f"""
+VOICE GUIDE (source of truth for tone and banned words/phrases):
+{voice_guide}
+
 Role: {parsed_job.get('title')} @ {parsed_job.get('company')}
 
 Cover Letter:
@@ -122,7 +124,8 @@ Review these documents for voice, naturalness, and authenticity violations.
 # ── CLI helper ────────────────────────────────────────────────────────────────
 
 def run_voice_judge(draft: dict, parsed_job: dict) -> VoiceJudgeResult:
+    voice_guide = (config.CONTEXT_DIR / "writing_voice_guide.md").read_text()
     print(f"[voice_judge] reviewing drafts for {parsed_job.get('title')} @ {parsed_job.get('company')}…")
-    result = judge_voice(draft, parsed_job)
+    result = judge_voice(draft, parsed_job, voice_guide)
     print(f"[voice_judge] verdict={result.verdict} feedback_count={len(result.feedback)}")
     return result

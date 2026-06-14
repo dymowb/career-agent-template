@@ -82,7 +82,10 @@ a paragraph, you can retune any agent. Here's the map, from "must do" to "advanc
 - **`context/resume_source_of_truth.md`** — your real, verifiable facts. *Start here* (see above).
 - **`context/candidate_profile.md`** — positioning, strengths, themes (used by scorer, tailor, drafter).
 - **`context/career_targets.md`** — roles, levels, comp, location you want (used by the scorer).
-- **`context/writing_voice_guide.md`** — how your letters should sound (enforced by the voice judge).
+- **`context/writing_voice_guide.md`** — how your letters should sound, including the exact
+  words/phrases to ban. This is the single source of voice truth: the drafter writes to it and
+  the voice judge enforces it (no clichés are hardcoded). Supports per-language sections, so
+  banned phrases work in any language you apply in.
 - **`config.py`** — `CANDIDATE_NAME` / `CANDIDATE_CONTACT` / `GITHUB_URL` (on every doc), `MODEL`,
   `MIN_SCORE` (fit bar), `MIN_BASE_COMP` (salary floor), `COMPANY_SKIP` / `COMPANY_BLOCK_UNTIL`,
   `REVIEW_TRANSLATION_LANG` (optional review-only translation of each pack — see above).
