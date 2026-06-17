@@ -32,7 +32,7 @@ def application_dir(company: str, title: str) -> Path:
 
 # ── Anthropic ─────────────────────────────────────────────────────────────────
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
-MODEL = "claude-sonnet-4-5"  # any current Claude model id
+MODEL = "claude-sonnet-4-6"  # any current Claude model id
 MAX_TOKENS = 4096
 
 # ── Candidate identity ────────────────────────────────────────────────────────
