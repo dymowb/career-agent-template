@@ -23,6 +23,7 @@ class ScoringResult(BaseModel):
     downlevel_risk: bool = False
     tpm_disguise_risk: bool = False
     deep_specialist_risk: bool = False
+    fully_remote: bool = False    # set by the model; scored per config.REMOTE_PREFERENCE
 
 # ── Prompt ────────────────────────────────────────────────────────────────────
 
@@ -69,6 +70,7 @@ Penalties (applied after weighted average):
   about required personal depth, not domain_fit. (Remove this penalty if it doesn't apply to you.)
 - generic_company_bonus: do NOT inflate the score just because the company is a top target.
   Score the role itself — a weak role at a great company is still a weak role.
+__REMOTE_CLAUSE__
 
 Weights: role_fit=25%, level_fit=25%, domain_fit=25%, company_value=15%, personal_interest=10%
 
@@ -82,7 +84,8 @@ Return this schema:
   "concerns": ["concern 1"],
   "downlevel_risk": false,
   "tpm_disguise_risk": false,
-  "deep_specialist_risk": false
+  "deep_specialist_risk": false,
+  "fully_remote": false
 }
 
 Minimum score to recommend "apply": 6.5
@@ -91,6 +94,21 @@ If tpm_disguise_risk is true: recommendation = "reject"
 """
 
 # ── Agent ─────────────────────────────────────────────────────────────────────
+
+def _remote_clause() -> str:
+    """Build the fully-remote scoring directive from config.REMOTE_PREFERENCE."""
+    pref = getattr(config, "REMOTE_PREFERENCE", "neutral")
+    adj = getattr(config, "REMOTE_ADJUSTMENT", 1.5)
+    if pref == "penalize":
+        return (f"- fully_remote: set true if the role is FULLY REMOTE (work-from-anywhere, no office "
+                f"attendance expected), then SUBTRACT {adj} points and add a concern. Apply ONLY to "
+                f"genuinely fully-remote roles — never penalize hybrid or onsite. (Remote preference: penalize.)")
+    if pref == "prefer":
+        return (f"- fully_remote: set true if the role is FULLY REMOTE (work-from-anywhere), then ADD "
+                f"{adj} points. Apply ONLY to genuinely fully-remote roles. (Remote preference: prefer.)")
+    return ("- fully_remote: set true if the role is fully remote, but do NOT change the score for it "
+            "(remote, hybrid, and onsite are scored equally). (Remote preference: neutral.)")
+
 
 def score_job(parsed_job: dict, candidate_profile: str, career_targets: str, judge_feedback: list[str] = None) -> ScoringResult:
     client = anthropic.Anthropic(api_key=config.ANTHROPIC_API_KEY)
@@ -115,7 +133,7 @@ Score this job for this candidate.{feedback_note}
     message = client.messages.create(
         model=config.MODEL,
         max_tokens=config.MAX_TOKENS,
-        system=SYSTEM,
+        system=SYSTEM.replace("__REMOTE_CLAUSE__", _remote_clause()),
         messages=[{"role": "user", "content": user_msg}],
     )
 

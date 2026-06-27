@@ -55,6 +55,15 @@ MIN_BASE_COMP = 0          # skip roles whose stated salary floor is below this 
 MAX_SCORING_ITERATIONS = 2
 MAX_REVISION_ITERATIONS = 3
 
+# ── Remote-work preference ────────────────────────────────────────────────────
+# How a FULLY REMOTE (work-from-anywhere) role affects its fit score. Hybrid and
+# onsite roles are NEVER affected by this setting.
+#   "penalize" — subtract REMOTE_ADJUSTMENT (e.g. you value in-office networking/culture)
+#   "neutral"  — no effect (default)
+#   "prefer"   — add REMOTE_ADJUSTMENT (you want remote work)
+REMOTE_PREFERENCE = "neutral"   # "penalize" | "neutral" | "prefer"
+REMOTE_ADJUSTMENT = 1.5          # points added/subtracted when preference is not neutral
+
 # ── SQLite ────────────────────────────────────────────────────────────────────
 DB_PATH = DB_DIR / "career_agent.db"
 

@@ -88,6 +88,7 @@ a paragraph, you can retune any agent. Here's the map, from "must do" to "advanc
   banned phrases work in any language you apply in.
 - **`config.py`** — `CANDIDATE_NAME` / `CANDIDATE_CONTACT` / `GITHUB_URL` (on every doc), `MODEL`,
   `MIN_SCORE` (fit bar), `MIN_BASE_COMP` (salary floor), `COMPANY_SKIP` / `COMPANY_BLOCK_UNTIL`,
+  `REMOTE_PREFERENCE` (`penalize` / `neutral` / `prefer` how fully-remote roles score),
   `REVIEW_TRANSLATION_LANG` (optional review-only translation of each pack — see above).
 
 ### Tier 2 — Tune the judgment (prompts & rubric)
